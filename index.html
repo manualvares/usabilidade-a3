@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Pokédex</title>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+<nav class="menu">
+
+  <a href="index.html">
+    Pokédex
+  </a>
+
+  <a href="battle.html">
+    Battle Center
+  </a>
+
+</nav>
+  <div class="background"></div>
+
+  <header>
+
+    <img 
+      class="logo"
+      src="pokebola.png"
+      alt="Pokébola"
+    >
+
+    <h1>Pokédex</h1>
+
+    <p class="subtitulo">
+      Descubra informações incríveis sobre qualquer Pokémon
+    </p>
+
+  </header>
+
+  <section class="search">
+
+    <input
+      type="text"
+      id="nomePokemon"
+      placeholder="Digite o nome ou número..."
+    >
+
+    <button onclick="buscarPokemon()">
+      Buscar
+    </button>
+
+  </section>
+
+  <main id="resultado"></main>
+
+  <script src="script.js"></script>
+
+</body>
+</html>
