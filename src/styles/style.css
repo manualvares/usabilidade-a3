@@ -268,4 +268,21 @@ button:focus{
   color:#cbd5e1;
   line-height:1.7;
 }
+.resultado.detalhado{
+  text-align:left;
+  line-height:1.8;
+}
+
+.resultado.detalhado h2{
+  margin-top:25px;
+  margin-bottom:10px;
+}
+
+.resultado.detalhado ul{
+  padding-left:20px;
+}
+
+.resultado.detalhado li{
+  margin-bottom:10px;
+}
 }

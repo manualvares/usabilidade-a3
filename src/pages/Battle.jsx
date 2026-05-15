@@ -8,39 +8,157 @@ export default function Battle() {
   const [poke2, setPoke2] = useState('')
   const [poke3, setPoke3] = useState('')
 
-  const [resultado, setResultado] = useState('')
+  const [resultado, setResultado] = useState(null)
 
   function analisarTime() {
 
-    const estrategias = [
-
-      `Seu time possui boa cobertura ofensiva.
-      ${poke1 || 'Pokémon 1'} poderia ser substituído por Gyarados
-      para melhorar batalhas contra tipos fogo e terra.`,
-
-      `Seu time parece equilibrado.
-      ${poke2 || 'Pokémon 2'} seria mais eficiente se fosse trocado
-      por Alakazam devido à alta velocidade e ataque especial.`,
-
-      `Você possui um estilo ofensivo.
-      ${poke3 || 'Pokémon 3'} pode apresentar fraqueza contra elétricos.
-      Um Pokémon do tipo terra ajudaria bastante.`,
-
-      `Seu time possui boa resistência.
-      Considere adicionar um Pokémon de gelo
-      para aumentar cobertura contra dragões.`,
-
-      `Seu time tem boa velocidade.
-      Uma troca estratégica por Snorlax
-      melhoraria a defesa geral do grupo.`
+    const pokemons = [
+      poke1.toLowerCase(),
+      poke2.toLowerCase(),
+      poke3.toLowerCase()
     ]
 
-    const random =
-      estrategias[
-        Math.floor(Math.random() * estrategias.length)
-      ]
+    let estrategia = {
+      estilo: '',
+      pontosFortes: [],
+      fraquezas: [],
+      recomendacoes: [],
+      estrategiaFinal: ''
+    }
 
-    setResultado(random)
+    // TIMES OFENSIVOS
+
+    if (
+      pokemons.includes('charizard') ||
+      pokemons.includes('pikachu') ||
+      pokemons.includes('alakazam')
+    ) {
+
+      estrategia.estilo =
+        'Time ofensivo e veloz.'
+
+      estrategia.pontosFortes.push(
+        'Alto dano em pouco tempo.'
+      )
+
+      estrategia.pontosFortes.push(
+        'Boa pressão ofensiva.'
+      )
+
+      estrategia.fraquezas.push(
+        'Defesa reduzida contra ataques terrestres.'
+      )
+
+      estrategia.recomendacoes.push(
+        'Utilize golpes rápidos para eliminar ameaças antes que reajam.'
+      )
+
+      estrategia.recomendacoes.push(
+        'Charizard funciona melhor longe de Pokémon elétricos.'
+      )
+
+      estrategia.estrategiaFinal =
+        'O ideal é iniciar a batalha pressionando o adversário rapidamente e evitar confrontos longos.'
+    }
+
+    // TIMES DEFENSIVOS
+
+    else if (
+      pokemons.includes('snorlax') ||
+      pokemons.includes('blastoise') ||
+      pokemons.includes('onix')
+    ) {
+
+      estrategia.estilo =
+        'Time defensivo e resistente.'
+
+      estrategia.pontosFortes.push(
+        'Grande capacidade de sobrevivência.'
+      )
+
+      estrategia.pontosFortes.push(
+        'Boa resistência física.'
+      )
+
+      estrategia.fraquezas.push(
+        'Velocidade reduzida.'
+      )
+
+      estrategia.recomendacoes.push(
+        'Utilize Pokémon resistentes para desgastar o inimigo.'
+      )
+
+      estrategia.recomendacoes.push(
+        'Blastoise pode proteger o time contra ataques de fogo.'
+      )
+
+      estrategia.estrategiaFinal =
+        'Seu time funciona melhor em batalhas longas, controlando o ritmo do combate.'
+    }
+
+    // TIMES EQUILIBRADOS
+
+    else {
+
+      estrategia.estilo =
+        'Time equilibrado.'
+
+      estrategia.pontosFortes.push(
+        'Boa variedade de ataques.'
+      )
+
+      estrategia.pontosFortes.push(
+        'Cobertura razoável contra diferentes tipos.'
+      )
+
+      estrategia.fraquezas.push(
+        'Pode sofrer contra especialistas em velocidade.'
+      )
+
+      estrategia.recomendacoes.push(
+        'Misture ataques ofensivos e defensivos.'
+      )
+
+      estrategia.recomendacoes.push(
+        'Adicionar um Pokémon elétrico aumentaria a cobertura do time.'
+      )
+
+      estrategia.estrategiaFinal =
+        'Seu time possui boa adaptação e funciona melhor alternando entre ataque e defesa.'
+    }
+
+    // ANÁLISE INDIVIDUAL
+
+    const analiseIndividual = []
+
+    if (pokemons.includes('pikachu')) {
+      analiseIndividual.push(
+        'Pikachu é extremamente rápido e ótimo contra tipos água.'
+      )
+    }
+
+    if (pokemons.includes('charizard')) {
+      analiseIndividual.push(
+        'Charizard possui excelente poder ofensivo aéreo, mas cuidado com ataques pedra.'
+      )
+    }
+
+    if (pokemons.includes('venusaur')) {
+      analiseIndividual.push(
+        'Venusaur ajuda muito no controle de status e recuperação.'
+      )
+    }
+
+    if (pokemons.includes('gengar')) {
+      analiseIndividual.push(
+        'Gengar é eficiente para surpreender inimigos com ataques fantasma.'
+      )
+    }
+
+    estrategia.analiseIndividual =
+      analiseIndividual
+
+    setResultado(estrategia)
   }
 
   return (
@@ -82,7 +200,10 @@ export default function Battle() {
 
         </div>
 
-        <button onClick={analisarTime}>
+        <button
+          onClick={analisarTime}
+          aria-label='Analisar estratégia do time'
+        >
           Analisar Estratégia
         </button>
 
@@ -91,10 +212,82 @@ export default function Battle() {
       {resultado && (
 
         <section
-          className='resultado'
+          className='resultado detalhado'
           aria-live='polite'
         >
-          {resultado}
+
+          <h2>
+            Estilo do Time
+          </h2>
+
+          <p>
+            {resultado.estilo}
+          </p>
+
+          <h2>
+            Pontos Fortes
+          </h2>
+
+          <ul>
+
+            {resultado.pontosFortes.map((item, index) => (
+              <li key={index}>
+                {item}
+              </li>
+            ))}
+
+          </ul>
+
+          <h2>
+            Fraquezas
+          </h2>
+
+          <ul>
+
+            {resultado.fraquezas.map((item, index) => (
+              <li key={index}>
+                {item}
+              </li>
+            ))}
+
+          </ul>
+
+          <h2>
+            Recomendações Estratégicas
+          </h2>
+
+          <ul>
+
+            {resultado.recomendacoes.map((item, index) => (
+              <li key={index}>
+                {item}
+              </li>
+            ))}
+
+          </ul>
+
+          <h2>
+            Análise Individual
+          </h2>
+
+          <ul>
+
+            {resultado.analiseIndividual.map((item, index) => (
+              <li key={index}>
+                {item}
+              </li>
+            ))}
+
+          </ul>
+
+          <h2>
+            Estratégia Final
+          </h2>
+
+          <p>
+            {resultado.estrategiaFinal}
+          </p>
+
         </section>
 
       )}
