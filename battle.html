@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Battle Center</title>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+<nav class="menu">
+
+  <a href="index.html">
+    Pokédex
+  </a>
+
+  <a href="battle.html">
+    Battle Center
+  </a>
+
+</nav>
+  <div class="background"></div>
+
+  <header>
+
+    <img 
+      class="logo"
+      src="pokebola.png"
+      alt="Pokébola"
+    >
+
+    <h1>Battle Center</h1>
+
+    <p class="subtitulo">
+      Monte estratégias inteligentes e descubra o Pokémon do dia
+    </p>
+
+  </header>
+
+  <!-- TIME -->
+
+  <section class="battle-section">
+
+    <h2>Monte seu time</h2>
+
+    <div class="time-inputs">
+
+      <input type="text" id="poke1" placeholder="Pokémon 1">
+      <input type="text" id="poke2" placeholder="Pokémon 2">
+      <input type="text" id="poke3" placeholder="Pokémon 3">
+
+    </div>
+
+    <button onclick="analisarTime()">
+      Analisar Estratégia
+    </button>
+
+  </section>
+
+  <!-- RESULTADO -->
+
+  <section id="resultadoTime" class="resultado-time"></section>
+
+  <!-- POKEMON DO DIA -->
+
+  <section class="daily-section">
+
+    <h2>Pokémon do Dia</h2>
+
+    <button onclick="pokemonDoDia()">
+      Descobrir
+    </button>
+
+    <div id="pokemonDia"></div>
+
+  </section>
+
+  <script src="battle.js"></script>
+
+</body>
+</html>
