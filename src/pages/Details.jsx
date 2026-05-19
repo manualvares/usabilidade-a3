@@ -1,50 +1,57 @@
 import { useEffect, useState } from 'react'
+
 import { useParams } from 'react-router-dom'
 
+import Header from '../components/Header'
+
 import Loading from '../components/Loading'
-import ErrorMessage from '../components/ErrorMessage'
+
+import { useLanguage }
+from '../context/LanguageContext'
 
 export default function Details() {
 
   const { name } = useParams()
 
+  const { language } = useLanguage()
+
   const [pokemon, setPokemon] = useState(null)
 
   const [loading, setLoading] = useState(true)
 
-  const [error, setError] = useState(false)
-
-  const [favoritado, setFavoritado] = useState(false)
+  const [favorite, setFavorite] = useState(false)
 
   useEffect(() => {
 
     fetchPokemon()
 
-    verificarFavorito()
-
-  }, [])
+  }, [name])
 
   async function fetchPokemon() {
 
     try {
 
-      setLoading(true)
-
       const response = await fetch(
         `https://pokeapi.co/api/v2/pokemon/${name}`
       )
-
-      if (!response.ok) {
-        throw new Error()
-      }
 
       const data = await response.json()
 
       setPokemon(data)
 
-    } catch {
+      const saved = JSON.parse(
+        localStorage.getItem('favorites')
+      ) || []
 
-      setError(true)
+      const exists = saved.find(
+        (item) => item.id === data.id
+      )
+
+      setFavorite(!!exists)
+
+    } catch (error) {
+
+      console.log(error)
 
     } finally {
 
@@ -53,130 +60,97 @@ export default function Details() {
     }
   }
 
-  function verificarFavorito() {
+  function toggleFavorite() {
 
-    const favoritos =
-      JSON.parse(localStorage.getItem('favoritos')) || []
+    const saved = JSON.parse(
+      localStorage.getItem('favorites')
+    ) || []
 
-    setFavoritado(
-      favoritos.includes(name)
-    )
-  }
+    if (favorite) {
 
-  function toggleFavorito() {
+      const updated = saved.filter(
+        (item) => item.id !== pokemon.id
+      )
 
-    const favoritos =
-      JSON.parse(localStorage.getItem('favoritos')) || []
+      localStorage.setItem(
+        'favorites',
+        JSON.stringify(updated)
+      )
 
-    let novosFavoritos
-
-    if (favoritos.includes(name)) {
-
-      novosFavoritos =
-        favoritos.filter((item) => item !== name)
-
-      setFavoritado(false)
+      setFavorite(false)
 
     } else {
 
-      novosFavoritos = [...favoritos, name]
+      saved.push(pokemon)
 
-      setFavoritado(true)
+      localStorage.setItem(
+        'favorites',
+        JSON.stringify(saved)
+      )
+
+      setFavorite(true)
     }
-
-    localStorage.setItem(
-      'favoritos',
-      JSON.stringify(novosFavoritos)
-    )
   }
 
   if (loading) return <Loading />
 
-  if (error) return <ErrorMessage />
-
   return (
     <main className='container'>
 
+      <Header
+        title={pokemon.name}
+
+        subtitle={
+          language === 'pt'
+            ? 'Detalhes do Pokémon'
+            : 'Pokémon Details'
+        }
+      />
+
       <section className='details-card'>
 
-        <button
-          className='favorite-btn'
-          onClick={toggleFavorito}
-          aria-label='Favoritar Pokémon'
-        >
-          {favoritado
-            ? '★ Favoritado'
-            : '☆ Favoritar'}
-        </button>
-
         <img
-          src={
-            pokemon.sprites.other['official-artwork'].front_default
-          }
+          src={pokemon.sprites.front_default}
           alt={pokemon.name}
         />
 
-        <h1>
-          #{pokemon.id} - {pokemon.name}
-        </h1>
+        <button
+          className='favorite-btn'
+          onClick={toggleFavorite}
 
-        <div className='types'>
+          aria-label='favorite pokemon'
+        >
+          {favorite ? '⭐' : '☆'}
+        </button>
 
-          {pokemon.types.map((type) => (
-            <span key={type.slot}>
-              {type.type.name}
-            </span>
-          ))}
+        <h2>
+          #{pokemon.id}
+        </h2>
 
-        </div>
+        <p>
+          HP: {pokemon.stats[0].base_stat}
+        </p>
 
-        <div className='info-box'>
+        <p>
+          Attack: {pokemon.stats[1].base_stat}
+        </p>
 
-          <h2>
-            Altura
-          </h2>
+        <p>
+          Defense: {pokemon.stats[2].base_stat}
+        </p>
 
-          <p>
-            {pokemon.height / 10} m
-          </p>
+        <p>
+          Speed: {pokemon.stats[5].base_stat}
+        </p>
 
-          <h2>
-            Peso
-          </h2>
-
-          <p>
-            {pokemon.weight / 10} kg
-          </p>
-
-          <h2>
-            Habilidades
-          </h2>
-
-          <ul>
-
-            {pokemon.abilities.map((ability) => (
-              <li key={ability.ability.name}>
-                {ability.ability.name}
-              </li>
-            ))}
-
-          </ul>
-
-          <h2>
-            Status
-          </h2>
-
-          <ul>
-
-            {pokemon.stats.map((stat) => (
-              <li key={stat.stat.name}>
-                {stat.stat.name}: {stat.base_stat}
-              </li>
-            ))}
-
-          </ul>
-
-        </div>
+        <p>
+          Type:
+          {' '}
+          {pokemon.types
+            .map((type) => type.type.name)
+            .join(', ')
+          }
+        </p>
 
       </section>
 

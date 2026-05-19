@@ -6,15 +6,25 @@ import PokemonCard from '../components/PokemonCard'
 import Loading from '../components/Loading'
 import ErrorMessage from '../components/ErrorMessage'
 
+import { useLanguage }
+from '../context/LanguageContext'
+
 export default function Home() {
 
+  const { language } = useLanguage()
+
   const [pokemons, setPokemons] = useState([])
+
   const [search, setSearch] = useState('')
+
   const [loading, setLoading] = useState(true)
+
   const [error, setError] = useState(false)
 
   useEffect(() => {
+
     fetchPokemons()
+
   }, [])
 
   async function fetchPokemons() {
@@ -30,13 +40,17 @@ export default function Home() {
       const data = await response.json()
 
       const details = await Promise.all(
+
         data.results.map(async (pokemon) => {
 
-          const req = await fetch(pokemon.url)
+          const req = await fetch(
+            pokemon.url
+          )
 
           return req.json()
 
         })
+
       )
 
       setPokemons(details)
@@ -52,19 +66,23 @@ export default function Home() {
     }
   }
 
-  const filteredPokemons = pokemons.filter((pokemon) => {
+  const filteredPokemons =
+    pokemons.filter((pokemon) => {
 
-    const nome = pokemon.name.toLowerCase()
+      const nome =
+        pokemon.name.toLowerCase()
 
-    const numero = pokemon.id.toString()
+      const numero =
+        pokemon.id.toString()
 
-    const busca = search.toLowerCase()
+      const busca =
+        search.toLowerCase()
 
-    return (
-      nome.includes(busca) ||
-      numero.includes(busca)
-    )
-  })
+      return (
+        nome.includes(busca) ||
+        numero.includes(busca)
+      )
+    })
 
   if (loading) return <Loading />
 
@@ -75,18 +93,35 @@ export default function Home() {
 
       <Header
         title='Pokédex'
-        subtitle='Explore os Pokémons da primeira geração'
+
+        subtitle={
+          language === 'pt'
+            ? 'Explore os Pokémons da primeira geração'
+            : 'Explore first generation Pokémons'
+        }
       />
 
       <SearchBar
         value={search}
-        onChange={(e) => setSearch(e.target.value)}
+        onChange={(e) =>
+          setSearch(e.target.value)
+        }
+
+        placeholder={
+          language === 'pt'
+            ? 'Pesquisar Pokémon'
+            : 'Search Pokémon'
+        }
       />
 
       {filteredPokemons.length === 0 ? (
 
         <div className='feedback'>
-          Nenhum Pokémon encontrado.
+
+          {language === 'pt'
+            ? 'Nenhum Pokémon encontrado.'
+            : 'No Pokémon found.'}
+
         </div>
 
       ) : (
@@ -94,10 +129,12 @@ export default function Home() {
         <section className='pokemon-grid'>
 
           {filteredPokemons.map((pokemon) => (
+
             <PokemonCard
               key={pokemon.id}
               pokemon={pokemon}
             />
+
           ))}
 
         </section>

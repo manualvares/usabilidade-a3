@@ -1,4 +1,8 @@
-export default function Header({ title, subtitle }) {
+export default function Header({
+  title,
+  subtitle
+}) {
+
   return (
     <header className='header'>
 
@@ -8,9 +12,13 @@ export default function Header({ title, subtitle }) {
         alt='Pokébola'
       />
 
-      <h1>{title}</h1>
+      <h1>
+        {title}
+      </h1>
 
-      <p>{subtitle}</p>
+      <p>
+        {subtitle}
+      </p>
 
     </header>
   )

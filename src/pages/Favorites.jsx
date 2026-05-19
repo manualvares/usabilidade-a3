@@ -3,58 +3,63 @@ import { useEffect, useState } from 'react'
 import Header from '../components/Header'
 import PokemonCard from '../components/PokemonCard'
 
+import { useLanguage }
+from '../context/LanguageContext'
+
 export default function Favorites() {
 
-  const [pokemons, setPokemons] = useState([])
+  const { language } = useLanguage()
+
+  const [favorites, setFavorites] = useState([])
 
   useEffect(() => {
-    carregarFavoritos()
+
+    const saved = JSON.parse(
+      localStorage.getItem('favorites')
+    ) || []
+
+    setFavorites(saved)
+
   }, [])
-
-  async function carregarFavoritos() {
-
-    const favoritos =
-      JSON.parse(localStorage.getItem('favoritos')) || []
-
-    const detalhes = await Promise.all(
-
-      favoritos.map(async (name) => {
-
-        const response = await fetch(
-          `https://pokeapi.co/api/v2/pokemon/${name}`
-        )
-
-        return response.json()
-
-      })
-    )
-
-    setPokemons(detalhes)
-  }
 
   return (
     <main className='container'>
 
       <Header
-        title='Favoritos'
-        subtitle='Seus Pokémons favoritos'
+        title={
+          language === 'pt'
+            ? 'Favoritos'
+            : 'Favorites'
+        }
+
+        subtitle={
+          language === 'pt'
+            ? 'Seus Pokémons favoritos'
+            : 'Your favorite Pokémons'
+        }
       />
 
-      {pokemons.length === 0 ? (
+      {favorites.length === 0 ? (
 
         <div className='feedback'>
-          Nenhum Pokémon favoritado.
+
+          {language === 'pt'
+            ? 'Nenhum favorito salvo.'
+            : 'No favorites saved.'}
+
         </div>
 
       ) : (
 
         <section className='pokemon-grid'>
 
-          {pokemons.map((pokemon) => (
+          {favorites.map((pokemon) => (
+
             <PokemonCard
               key={pokemon.id}
               pokemon={pokemon}
             />
+
           ))}
 
         </section>

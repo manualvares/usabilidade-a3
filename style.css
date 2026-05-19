@@ -10,9 +10,88 @@ body{
   font-family:'Poppins', sans-serif;
   min-height:100vh;
   overflow-x:hidden;
-  color:white;
-  background:#111827;
   position:relative;
+  transition:0.3s;
+}
+
+/* =========================
+   DARK MODE
+========================= */
+
+body.dark{
+  background:#111827;
+  color:white;
+}
+
+body.dark .menu{
+  background:rgba(17,24,39,0.75);
+}
+
+body.dark .pokemon-card,
+body.dark .details-card,
+body.dark .battle-box,
+body.dark .pokemon,
+body.dark .card-time,
+body.dark .battle-section,
+body.dark .daily-section{
+  background:rgba(255,255,255,0.08);
+  color:white;
+}
+
+body.dark input{
+  background:rgba(255,255,255,0.08);
+  color:white;
+}
+
+body.dark input::placeholder{
+  color:#cbd5e1;
+}
+
+/* =========================
+   LIGHT MODE
+========================= */
+
+body.light{
+  background:#f1f5f9;
+  color:#111827;
+}
+
+body.light .menu{
+  background:rgba(255,255,255,0.9);
+}
+
+body.light .menu a{
+  color:#111827;
+}
+
+body.light .pokemon-card,
+body.light .details-card,
+body.light .battle-box,
+body.light .pokemon,
+body.light .card-time,
+body.light .battle-section,
+body.light .daily-section{
+  background:white;
+  color:#111827;
+}
+
+body.light .subtitulo{
+  color:#475569;
+}
+
+body.light input{
+  background:#f8fafc;
+  color:#111827;
+}
+
+body.light input::placeholder{
+  color:#64748b;
+}
+
+body.light .info,
+body.light .card-time p,
+body.light .stat-topo{
+  color:#334155;
 }
 
 /* =========================
@@ -23,72 +102,43 @@ body{
   position:fixed;
   width:100%;
   height:100%;
+  z-index:-3;
+}
+
+/* DARK BACKGROUND */
+
+body.dark .background{
 
   background:
     radial-gradient(circle at top left,
       rgba(239,68,68,0.45),
-      transparent 30%
-    ),
+      transparent 30%),
 
     radial-gradient(circle at bottom right,
       rgba(185,28,28,0.35),
-      transparent 30%
-    ),
+      transparent 30%),
 
     radial-gradient(circle at center,
       #1f2937,
-      #111827
-    );
-
-  z-index:-3;
+      #111827);
 }
 
-/* GLOWS */
+/* LIGHT BACKGROUND */
 
-body::before{
-  content:"";
-  position:fixed;
-
-  width:500px;
-  height:500px;
-
-  top:-150px;
-  right:-150px;
-
-  border-radius:50%;
+body.light .background{
 
   background:
-    radial-gradient(circle,
-      rgba(239,68,68,0.25),
-      transparent 70%
-    );
+    radial-gradient(circle at top left,
+      rgba(248,113,113,0.15),
+      transparent 30%),
 
-  filter:blur(90px);
+    radial-gradient(circle at bottom right,
+      rgba(251,191,36,0.15),
+      transparent 30%),
 
-  z-index:-2;
-}
-
-body::after{
-  content:"";
-  position:fixed;
-
-  width:400px;
-  height:400px;
-
-  bottom:-120px;
-  left:-120px;
-
-  border-radius:50%;
-
-  background:
-    radial-gradient(circle,
-      rgba(220,38,38,0.20),
-      transparent 70%
-    );
-
-  filter:blur(90px);
-
-  z-index:-2;
+    radial-gradient(circle at center,
+      #ffffff,
+      #e5e7eb);
 }
 
 /* =========================
@@ -97,13 +147,12 @@ body::after{
 
 .menu{
   width:100%;
-
   display:flex;
   justify-content:center;
   align-items:center;
-  gap:30px;
+  gap:20px;
 
-  padding:28px;
+  padding:24px;
 
   position:sticky;
   top:0;
@@ -111,9 +160,6 @@ body::after{
   z-index:100;
 
   backdrop-filter:blur(14px);
-
-  background:
-    rgba(17,24,39,0.55);
 
   border-bottom:
     1px solid rgba(255,255,255,0.08);
@@ -124,13 +170,12 @@ body::after{
 
 .menu a{
   text-decoration:none;
-
   color:white;
 
-  font-size:1.1rem;
+  font-size:1rem;
   font-weight:700;
 
-  padding:16px 34px;
+  padding:14px 28px;
 
   border-radius:999px;
 
@@ -141,16 +186,11 @@ body::after{
 
   border:
     1px solid rgba(255,255,255,0.08);
-
-  letter-spacing:1px;
-
-  box-shadow:
-    0 5px 15px rgba(0,0,0,0.15);
 }
 
 .menu a:hover{
   transform:
-    translateY(-3px) scale(1.03);
+    translateY(-3px);
 
   background:
     linear-gradient(
@@ -159,8 +199,41 @@ body::after{
       #ef4444
     );
 
-  box-shadow:
-    0 0 25px rgba(239,68,68,0.4);
+  color:white;
+}
+
+/* =========================
+   BUTTONS
+========================= */
+
+.theme-btn,
+.lang-btn{
+  padding:10px 16px;
+
+  border:none;
+
+  border-radius:12px;
+
+  cursor:pointer;
+
+  font-weight:700;
+
+  transition:0.3s;
+}
+
+.theme-btn:hover,
+.lang-btn:hover{
+  transform:scale(1.05);
+}
+
+.lang-btn{
+  background:#38bdf8;
+  color:white;
+}
+
+.theme-btn{
+  background:#facc15;
+  color:#111827;
 }
 
 /* =========================
@@ -172,8 +245,6 @@ header{
   padding:40px 20px 20px;
 }
 
-/* LOGO */
-
 .logo{
   width:130px;
 
@@ -181,7 +252,7 @@ header{
 
   margin:0 auto 15px;
 
-  animation: flutuar 3s ease-in-out infinite;
+  animation:flutuar 3s ease-in-out infinite;
 }
 
 @keyframes flutuar{
@@ -199,8 +270,6 @@ header{
   }
 }
 
-/* TITULO */
-
 header h1{
   font-family:'Bangers', cursive;
 
@@ -215,10 +284,7 @@ header h1{
     8px 8px 20px rgba(239,68,68,0.25);
 }
 
-/* SUBTITULO */
-
 .subtitulo{
-  color:#cbd5e1;
   font-size:1.1rem;
 }
 
@@ -235,53 +301,51 @@ header h1{
   flex-wrap:wrap;
 }
 
-.search input{
+.search input,
+.time-inputs input,
+.inputs input{
   width:320px;
 
   padding:15px 20px;
 
   border:none;
+
   border-radius:50px;
 
   outline:none;
 
   font-size:16px;
 
-  background:rgba(255,255,255,0.08);
-
-  backdrop-filter:blur(12px);
-
-  color:white;
-
-  border:1px solid rgba(255,255,255,0.15);
+  border:
+    1px solid rgba(255,255,255,0.15);
 
   transition:0.3s;
 }
 
-.search input:focus{
+.search input:focus,
+.time-inputs input:focus,
+.inputs input:focus{
   border-color:#ef4444;
 
   box-shadow:
     0 0 0 4px rgba(239,68,68,0.15);
 }
 
-.search input::placeholder{
-  color:#cbd5e1;
-}
+/* =========================
+   GLOBAL BUTTON
+========================= */
 
-/* BOTÃO */
-
-.search button,
-.battle-section button,
-.daily-section button{
+button{
   padding:15px 28px;
 
   border:none;
+
   border-radius:50px;
 
   cursor:pointer;
 
   font-weight:600;
+
   font-size:15px;
 
   background:
@@ -295,9 +359,7 @@ header h1{
     0 0 20px rgba(239,68,68,0.25);
 }
 
-.search button:hover,
-.battle-section button:hover,
-.daily-section button:hover{
+button:hover{
   transform:scale(1.05);
 
   box-shadow:
@@ -305,145 +367,93 @@ header h1{
 }
 
 /* =========================
-   RESULTADO
+   CONTAINER
 ========================= */
 
-main{
-  display:flex;
-  justify-content:center;
+.container{
+  width:100%;
   padding:20px;
 }
 
-/* CARD */
+/* =========================
+   GRID
+========================= */
 
-.pokemon{
-  width:350px;
+.pokemon-grid{
+  display:grid;
 
+  grid-template-columns:
+    repeat(auto-fit,minmax(250px,1fr));
+
+  gap:25px;
+
+  margin-top:40px;
+}
+
+/* =========================
+   CARD
+========================= */
+
+.pokemon-card,
+.details-card,
+.pokemon,
+.card-time{
   padding:30px;
 
   border-radius:30px;
 
-  background:rgba(255,255,255,0.08);
-
   backdrop-filter:blur(15px);
 
-  border:1px solid rgba(255,255,255,0.12);
+  border:
+    1px solid rgba(255,255,255,0.12);
 
   box-shadow:
     0 10px 30px rgba(0,0,0,0.35);
 
   text-align:center;
 
-  animation: aparecer 0.5s ease;
+  transition:0.3s;
 }
 
-@keyframes aparecer{
-
-  from{
-    opacity:0;
-    transform:translateY(20px);
-  }
-
-  to{
-    opacity:1;
-    transform:translateY(0);
-  }
+.pokemon-card:hover,
+.card-time:hover{
+  transform:
+    translateY(-6px);
 }
 
-.pokemon img{
-  width:220px;
-
-  filter:
-    drop-shadow(0 10px 20px rgba(0,0,0,0.4));
+.pokemon-card img,
+.details-card img{
+  width:180px;
 }
 
-.pokemon h2{
-  font-size:2rem;
-
-  margin:10px 0;
-
+.pokemon-card h2,
+.details-card h2{
   text-transform:capitalize;
-
-  color:#ffffff;
-}
-
-/* TIPOS */
-
-.tipos{
-  display:flex;
-  justify-content:center;
-  gap:10px;
-  margin:15px 0;
-  flex-wrap:wrap;
-}
-
-.tipo{
-  padding:8px 16px;
-
-  border-radius:20px;
-
-  font-size:14px;
-
-  font-weight:600;
-
-  color:white;
-}
-
-/* STATS */
-
-.stats{
-  margin-top:20px;
-  text-align:left;
-}
-
-.stat{
-  margin-bottom:15px;
-}
-
-.stat-topo{
-  display:flex;
-  justify-content:space-between;
-  margin-bottom:5px;
-
-  color:#e5e7eb;
-}
-
-.barra{
-  width:100%;
-  height:10px;
-
-  background:rgba(255,255,255,0.1);
-
-  border-radius:10px;
-
-  overflow:hidden;
-}
-
-.progresso{
-  height:100%;
-
-  border-radius:10px;
-
-  background:
-    linear-gradient(to right,#ef4444,#f87171);
-}
-
-/* INFOS */
-
-.info{
-  margin-top:20px;
-  color:#e2e8f0;
-}
-
-.info p{
-  margin:8px 0;
 }
 
 /* =========================
-   BATTLE PAGE
+   FAVORITE
 ========================= */
 
-.battle-section{
+.favorite-btn{
+  font-size:30px;
+
+  background:none;
+
+  border:none;
+
+  cursor:pointer;
+
+  box-shadow:none;
+}
+
+/* =========================
+   BATTLE
+========================= */
+
+.battle-section,
+.daily-section,
+.battle-box{
   width:90%;
   max-width:1200px;
 
@@ -453,77 +463,8 @@ main{
 
   border-radius:35px;
 
-  background:
-    rgba(255,255,255,0.08);
-
-  backdrop-filter:blur(15px);
-
-  border:
-    1px solid rgba(255,255,255,0.10);
-
-  box-shadow:
-    0 15px 40px rgba(0,0,0,0.30);
-
   text-align:center;
 }
-
-.battle-section h2,
-.daily-section h2{
-  font-size:2.5rem;
-
-  margin-bottom:35px;
-
-  color:#ef4444;
-}
-
-/* INPUTS */
-
-.time-inputs{
-  display:flex;
-
-  justify-content:center;
-  align-items:center;
-
-  gap:20px;
-
-  flex-wrap:wrap;
-
-  margin-bottom:30px;
-}
-
-.time-inputs input{
-  width:240px;
-
-  padding:18px 22px;
-
-  border:none;
-  border-radius:22px;
-
-  background:
-    rgba(255,255,255,0.08);
-
-  backdrop-filter:blur(10px);
-
-  border:
-    1px solid rgba(255,255,255,0.10);
-
-  color:white;
-
-  outline:none;
-
-  font-size:15px;
-
-  transition:0.3s;
-}
-
-.time-inputs input:focus{
-  border-color:#ef4444;
-
-  box-shadow:
-    0 0 0 4px rgba(239,68,68,0.15);
-}
-
-/* RESULTADO DOS TIMES */
 
 .resultado-time{
   width:95%;
@@ -533,128 +474,67 @@ main{
 
   display:flex;
   justify-content:center;
-  align-items:stretch;
   gap:25px;
 
   flex-wrap:wrap;
 }
 
-/* CARD DOS TIMES */
+/* =========================
+   COMPARE
+========================= */
 
-.card-time{
-  width:320px;
+.compare-grid{
+  display:grid;
 
-  padding:30px;
+  grid-template-columns:1fr 1fr;
 
-  border-radius:30px;
+  gap:20px;
 
-  background:
-    rgba(255,255,255,0.08);
-
-  backdrop-filter:blur(15px);
-
-  border:
-    1px solid rgba(255,255,255,0.10);
-
-  box-shadow:
-    0 12px 35px rgba(0,0,0,0.30);
-
-  text-align:center;
-
-  transition:0.3s;
-}
-
-.card-time:hover{
-  transform:translateY(-6px);
-}
-
-.card-time img{
-  width:170px;
-
-  filter:
-    drop-shadow(0 10px 20px rgba(0,0,0,0.35));
-}
-
-.card-time h3{
-  margin:18px 0;
-
-  font-size:1.8rem;
-
-  color:#ef4444;
-
-  text-transform:capitalize;
-}
-
-.card-time p{
-  color:#e5e7eb;
-
-  margin:10px 0;
-
-  line-height:1.6;
-}
-
-.analise{
-  margin-top:18px;
-
-  padding-top:18px;
-
-  border-top:
-    1px solid rgba(255,255,255,0.08);
+  margin-top:40px;
 }
 
 /* =========================
-   POKEMON DO DIA
+   ACCESSIBILITY
 ========================= */
 
-.daily-section{
-  width:90%;
-  max-width:800px;
-
-  margin:60px auto;
-
-  padding:40px;
-
-  border-radius:35px;
-
-  background:
-    rgba(255,255,255,0.08);
-
-  backdrop-filter:blur(15px);
-
-  border:
-    1px solid rgba(255,255,255,0.10);
-
-  box-shadow:
-    0 15px 40px rgba(0,0,0,0.30);
-
-  text-align:center;
-}
-
-#pokemonDia{
-  margin-top:35px;
-
-  display:flex;
-  justify-content:center;
+button:focus,
+input:focus,
+a:focus{
+  outline:3px solid #38bdf8;
+  outline-offset:2px;
 }
 
 /* =========================
-   RESPONSIVO
+   FEEDBACK
 ========================= */
 
-@media(max-width:900px){
+.feedback{
+  text-align:center;
 
-  .resultado-time{
-    flex-direction:column;
-    align-items:center;
-  }
+  margin-top:40px;
 
-  .card-time{
-    width:100%;
-    max-width:380px;
-  }
+  font-size:1.2rem;
 }
 
-@media(max-width:600px){
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-width:768px){
+
+  .compare-grid{
+    grid-template-columns:1fr;
+  }
+
+  .menu{
+    flex-wrap:wrap;
+    gap:10px;
+  }
+
+  .menu a{
+    padding:12px 18px;
+    font-size:0.9rem;
+  }
 
   header h1{
     font-size:3.5rem;
@@ -664,30 +544,16 @@ main{
     width:90px;
   }
 
-  .pokemon{
+  .search input,
+  .time-inputs input,
+  .inputs input{
     width:100%;
   }
+  body.dark{
+  background:black !important;
+}
 
-  .search input{
-    width:100%;
-  }
-
-  .menu{
-    gap:15px;
-    padding:18px;
-  }
-
-  .menu a{
-    font-size:0.95rem;
-    padding:14px 22px;
-  }
-
-  .battle-section h2,
-  .daily-section h2{
-    font-size:2rem;
-  }
-
-  .time-inputs input{
-    width:100%;
-  }
+body.light{
+  background:white !important;
+}
 }
