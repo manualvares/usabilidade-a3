@@ -1,4 +1,4 @@
-# Pokédex Kanto
+# Pokédex 
 
 Uma aplicação web interativa que reúne os 151 Pokémon da primeira geração em um catálogo digital completo. O projeto permite consultar informações detalhadas, comparar criaturas, simular batalhas e explorar funcionalidades extras, proporcionando uma experiência intuitiva e divertida para fãs da franquia.
 
